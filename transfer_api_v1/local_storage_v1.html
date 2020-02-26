@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!-- 
+The MIT License (MIT)
+
+Copyright (c) 2015 Signiant Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+  
+  ******************************
+  * INSTRUCTIONS
+  ******************************
+  This sample webpage provides an example of how you can use the Signiant Web Transfer API in a web application.
+
+  In order to use this sample, you'll need an API key. You can get one from https://developer.mediashuttle.com
+
+  Replace "YOUR_API_KEY_HERE" with that API key in the "api-key" attribute on line 44.
+
+  Note that this sample only uploads files, but the product does support downloading. Contact Signiant for help if you need to download files.
+  
+  Need help? Visit https://support.signiant.com/
+-->
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+ 	<link rel="stylesheet" href="https://developer.mediashuttle.com/js/msapi/widgets/1.0/draganddrop/mediashuttlednd.css"></link> 
+  	<link rel="stylesheet" href="https://developer.mediashuttle.com/js/msapi/widgets/1.0/transferProgress/mediashuttletransferprogress.css"></link> 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>  
+
+    <script src="https://developer.mediashuttle.com/transfer/js" type="text/javascript" api-key='YOUR_API_KEY_HERE' id='ms-api'></script> 
+
+    <script src="https://developer.mediashuttle.com/js/msapi/widgets/1.0/draganddrop/mediashuttlednd.js" type="text/javascript"></script> 
+    <script src="https://developer.mediashuttle.com/js/msapi/widgets/1.0/transferProgress/mediashuttletransferprogress.js" type="text/javascript"></script> 
+
+    <title>Signiant Web Transfer API Sample</title>
+
+	<script>
+		var defaultServer = 'api-transfers.developer.mediashuttle.com';
+		var userName = 'transferapi';
+		var password = 'transferapi';
+		var trustCertificate = "-----BEGIN CERTIFICATE-----\nMIIE6zCCA9OgAwIBAgIBADANBgkqhkiG9w0BAQUFADCBkjELMAkGA1UEBhMCQ0Ex\nEDAOBgNVBAgTB09udGFyaW8xDzANBgNVBAcTBk90dGF3YTEhMB8GA1UEChMYU2ln\nbmlhbnQgTVMgVHJhbnNmZXIgQVBJMQ8wDQYDVQQLEwZEZXZPcHMxLDAqBgNVBAMT\nI1NpZ25pYW50IE1TIFRyYW5zZmVyIEFQSSBUcnVzdGVkIENBMB4XDTEzMDYxMjA0\nMDAwMVoXDTMzMDYxMjA0MDAwMVowgZIxCzAJBgNVBAYTAkNBMRAwDgYDVQQIEwdP\nbnRhcmlvMQ8wDQYDVQQHEwZPdHRhd2ExITAfBgNVBAoTGFNpZ25pYW50IE1TIFRy\nYW5zZmVyIEFQSTEPMA0GA1UECxMGRGV2T3BzMSwwKgYDVQQDEyNTaWduaWFudCBN\nUyBUcmFuc2ZlciBBUEkgVHJ1c3RlZCBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAM/iBZG81g6OgpB1u+Xiwcocx9HJeM5DSkL/L3ZVMl1pKulh9JnB\nzQryK2mvC24FwScdfqEv788cwgNzXquY2EUqz0y4ult24GziI8oyGb/OZGlP7Jax\n+2c9Rd1LV8A3z9U4IwXMHJ35pbjMnH6QjaswFl4XjSIP7XK+SBANXxq/3aE9bulL\nlx50GTjek2o7l1TkZ+gPVCDFyaGpc1ezgZ95zXTizk6jJw+JZYzcBw8xtFHx4rna\ntB3VLbTO8rVleY0wE7YSOtabb1e3Z+W3RzJ8hqueoih0wUzN+cbUH/H3dLJ/dBcQ\n59gdam3Db/pmbuiqOTWBBumZ0TVd8i1jT2MCAwEAAaOCAUgwggFEMA8GA1UdEwEB\n/wQFMAMBAf8wEQYJYIZIAYb4QgEBBAQDAgIEMAsGA1UdDwQEAwIBBjAwBglghkgB\nhvhCAQ0EIxYhVHJ1c3RlZCBERFMgQ2VydGlmaWNhdGUgQXV0aG9yaXR5MB0GA1Ud\nDgQWBBTaOaPuXmtLDTJVv++VYBiQr9gHCTCBvwYDVR0jBIG3MIG0gBTaOaPuXmtL\nDTJVv++VYBiQr9gHCaGBmKSBlTCBkjELMAkGA1UEBhMCQ0ExEDAOBgNVBAgTB09u\ndGFyaW8xDzANBgNVBAcTBk90dGF3YTEhMB8GA1UEChMYU2lnbmlhbnQgTVMgVHJh\nbnNmZXIgQVBJMQ8wDQYDVQQLEwZEZXZPcHMxLDAqBgNVBAMTI1NpZ25pYW50IE1T\nIFRyYW5zZmVyIEFQSSBUcnVzdGVkIENBggEAMA0GCSqGSIb3DQEBBQUAA4IBAQCb\n1ZLHXZM0vRUDOJpPgWv+3WDPYDcDHwfTImcsutbAobL61TRD+MBDmv89A8W8wYWk\n5MiDhBvAUVUhJm1rgLxxjOjqiX4WpikbhmMc5hjNQN0h1Ybt7XideN+DCiR/tnAv\nhMyW0efovrHwYN15XxoDN/GgMYb7kNy9Jc4mi5jt05wSaDKv1iht7VFE6K2SVuvi\nwwmz+4BaAlbp5yCDULwqtCpkaS6w05538Bfhruw9iswZcZyAK5E9iTFT0h+jpe23\nQhYpTkcLu9vhCM/7jEV6SGxRMFnV5JVPs/sGDVcdW9D9j92h+p0ti+HXiIR0TwDb\ngPIRFH2JSaYBwoIFQMPl\n-----END CERTIFICATE-----";
+		var transferObject = null;
+
+		function checkForPlugin() {
+			console.log("Check for Media Shuttle Plugin");
+			detectPlugin({success:initializeScriptsInPage, error:pluginErrorFailure});
+		}
+
+		function pluginErrorFailure(){
+			alert("Media Shuttle Transfer API Plugin Failed to load. Transfer Services will not be available.");
+		}
+
+		function initializeScriptsInPage(){
+			transferObject = initializeUploadObject();
+
+			console.log("Render File Selector Widget");
+
+			var dndWidget = new Signiant.Mst.DnDWidget( 'fileSelector', transferObject );
+			dndWidget.render();
+
+			console.log("Render Progress Bar Widget");
+
+			var progressBar = new Signiant.Mst.TransferProgressWidget('displayProgress', transferObject);
+			progressBar.showPercent(true);
+			progressBar.showEstimatedCompletion(true);
+			progressBar.render();
+		}
+
+		function initializeUploadObject() {
+			console.log("Initialize Upload Object");
+
+			var uploadTransfer = new Signiant.Mst.Upload();
+
+			uploadTransfer.setServer(defaultServer);
+			uploadTransfer.setTrustedCA(trustCertificate);
+			uploadTransfer.setCredentials( userName, password);
+
+			uploadTransfer.subscribeForTransferErrors(transferErrors);
+			uploadTransfer.subscribeForBasicEvents(transferEvents);
+
+			return uploadTransfer;
+		}
+
+		function transferErrors (transferObject, eventCode, eventMsg, propertyName){
+			console.log("Sample Upload Transfer Error " + eventCode + ", " + eventMsg);
+			sendMessageToEventBox(eventMsg);
+			showDiv('#uploadAction');
+			hideDiv('#cancelAction');
+		}
+
+		function transferEvents ( transferObject, eventCode, eventMsg, eventData ) {
+			console.log("Sample Upload Transfer Event " + eventCode + ", " + eventMsg);
+			var message = eventMsg;			
+			if ( eventCode == 'TRANSFER_STARTED') {
+				showDiv('#cancelAction');
+				hideDiv('#uploadAction');
+			}
+			else if (eventCode == 'TRANSFER_PRE_FILE_EVENT')
+				message = "Uploading File " + eventData;
+			else if (eventCode == 'TRANSFER_COMPLETED') {
+				showDiv('#uploadAction');
+				hideDiv('#cancelAction');
+				message = "Completed File Upload Successfully";	
+			} else if (eventCode == 'TRANSFER_CANCEL_EVENT') {
+				showDiv('#uploadAction');
+				hideDiv('#cancelAction');
+			}
+			
+			if ( eventCode != 'PRE_TRANSFER_EVENT') {
+				sendMessageToEventBox(message);
+			}
+		}
+
+		function startUploadFiles(transferObject) {
+			console.log("Start Upload files");
+			try {
+				selectedFiles = transferObject.getFiles();
+				if (selectedFiles.length == 0)
+					console.log("No files Selected for Upload");
+				else{
+					transferObject.startUpload();
+				}
+			} catch (exception) {
+				console.log("Exception in Upload Files");
+				console.log(exception);
+			}
+		}
+
+		function cancelUpload(transferObject) {
+			console.log("Cancel Upload files");
+			try {
+				transferObject.cancel();
+			} catch (exception) {
+				console.log("Exception in Cancel Upload Files");
+				console.log(exception);
+			}
+		}
+
+		function sendMessageToEventBox( message ){
+			var div = $('#events');
+			if (div.length > 0) {
+		        div.html(message);
+			}
+		}
+
+		function showDiv( divId ) {
+			var actionDiv = $(divId);
+			actionDiv.show();
+		}
+
+		function hideDiv( divId ) {
+			var actionDiv = $(divId);
+			actionDiv.hide();
+		}
+
+		$(document).ready(function(){
+			checkForPlugin();
+		});
+	</script>
+</head>
+
+<body>
+	<div id="toprow">&nbsp;</div>	
+	<div style="position: relative; top: 10px; text-align:center; color: #696969; font-size: 38px;">Signiant Web Transfer API</div>	
+    <div style="position: absolute; top: 2px; left: 50px;"></div>
+    <div style="position: absolute; top: 28px; right: 190px;"><img src="https://developer.mediashuttle.com/resources/images/signiantLogo.png" align="right"></div>
+
+	<div style="margin-left: 12pt; margin-top: 40pt; float: none;" align="center">
+		<div style="position: relative; text-align:center; color: #229AD6; font-size: 30px;">Upload Sample with Signiant Widgets</div>
+		<div style="position: relative; text-align:center; color: #080808; font-size: 15px; font-style:italic; margin-top: 10px; margin-bottom: 10px;" id="events">Select Files to Upload</div>
+
+	 	<div align="center">
+			<div id="fileSelector" style='width: 400px;height: 200px'></div>
+		</div>
+
+	 	<div align="center">
+			<div id='displayProgress' style='margin-top: 8px;width: 400px;height: 20px'></div>
+		</div>
+
+  		<div id="uploadAction"  style='margin-top: 25px'><button type="button" onclick="startUploadFiles(transferObject)">Upload Now</button></div>
+		<div id="cancelAction" style="display:none; margin-top: 25px"><button type="button" onclick="cancelUpload(transferObject)">Cancel</button></div>
+ 	</div>
+</body>
+</html>
