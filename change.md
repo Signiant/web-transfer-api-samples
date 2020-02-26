@@ -2,6 +2,10 @@
 
 The following is a list of changes made to the Transfer API:
 
+### Transfer API v2.9.3 - July 31st, 2019
+* Added connectedServer property to pre-transfer event, to improve log messages to facilitate debugging.
+* Security fixes.
+
 ### Transfer API v2.8.1 - July 25th, 2018
 * Add functions for setting restarts and enabling multiport transfer capability.
 * Bug fixes and optimizations.
